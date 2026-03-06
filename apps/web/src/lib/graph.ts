@@ -90,8 +90,8 @@ export function toFlow(
           width: 260,
           borderRadius: 14,
           border: `1px solid ${colorMap[status]}`,
-          background: 'rgba(7, 19, 32, 0.9)',
-          color: '#eaf4ff',
+          background: 'var(--surface)',
+          color: 'var(--text-primary)',
           boxShadow: `0 0 0 2px ${colorMap[status]}22`,
         },
       });

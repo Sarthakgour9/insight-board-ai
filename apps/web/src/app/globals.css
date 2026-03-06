@@ -1,6 +1,7 @@
-@import "tailwindcss";
+ @import "tailwindcss";
 
-:root {
+/* Dark Theme (default) */
+:root, [data-theme="dark"] {
   --bg-primary: #030712;
   --bg-secondary: #0a0f1a;
   --bg-tertiary: #111827;
@@ -17,6 +18,42 @@
   --accent-emerald: #10b981;
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
+  --bg-gradient-1: rgba(6, 182, 212, 0.08);
+  --bg-gradient-2: rgba(139, 92, 246, 0.06);
+  --bg-gradient-3: rgba(59, 130, 246, 0.05);
+  --bg-gradient-4: rgba(16, 185, 129, 0.04);
+  --grid-color: rgba(56, 189, 248, 0.02);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-bg: rgba(17, 24, 39, 0.4);
+  --input-bg: rgba(3, 7, 18, 0.6);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --surface: rgba(255, 255, 255, 0.95);
+  --surface-hover: rgba(248, 250, 252, 0.98);
+  --border: rgba(6, 182, 212, 0.3);
+  --border-active: rgba(6, 182, 212, 0.6);
+  --text-primary: #000000;
+  --text-secondary: #1e293b;
+  --text-muted: #475569;
+  --accent-cyan: #0891b2;
+  --accent-blue: #2563eb;
+  --accent-violet: #7c3aed;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
+  --accent-rose: #e11d48;
+  --bg-gradient-1: rgba(6, 182, 212, 0.08);
+  --bg-gradient-2: rgba(139, 92, 246, 0.06);
+  --bg-gradient-3: rgba(59, 130, 246, 0.04);
+  --bg-gradient-4: rgba(16, 185, 129, 0.03);
+  --grid-color: rgba(6, 182, 212, 0.06);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --card-bg: rgba(255, 255, 255, 1);
+  --input-bg: rgba(248, 250, 252, 0.95);
 }
 
 * {
@@ -30,6 +67,8 @@ body {
   color: var(--text-primary);
   background: var(--bg-primary);
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Ambient background with subtle glows */
@@ -41,12 +80,13 @@ body::before {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(ellipse 100% 80% at 0% 0%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 60% at 100% 0%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 60% at 0% 100%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 80% at 0% 0%, var(--bg-gradient-1) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 100% 0%, var(--bg-gradient-2) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, var(--bg-gradient-3) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 0% 100%, var(--bg-gradient-4) 0%, transparent 50%),
     linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   z-index: -2;
+  transition: background 0.3s ease;
 }
 
 /* Subtle grid pattern */
@@ -58,8 +98,8 @@ body::after {
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(rgba(56, 189, 248, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.02) 1px, transparent 1px);
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 40px 40px;
   z-index: -1;
   pointer-events: none;
@@ -77,32 +117,20 @@ body {
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 
     0 0 0 1px rgba(255, 255, 255, 0.02),
-    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 4px 24px var(--shadow-color),
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
   transition: all 0.3s ease;
 }
 
+[data-theme="light"] .surface {
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 4px 24px var(--shadow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
 .surface:hover {
   border-color: var(--border-active);
-}
-
-/* Header styling */
-.header-glow {
-  position: relative;
-}
-
-.header-glow::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(6, 182, 212, 0.5) 50%, 
-    transparent 100%
-  );
 }
 
 /* Card entrance animation */
@@ -120,12 +148,6 @@ body {
     transform: translateY(0);
   }
 }
-
-/* Staggered animation delay for children */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
 
 /* Modern button */
 .btn-primary {
@@ -178,7 +200,7 @@ body {
 
 /* Input styling */
 .input-field {
-  background: rgba(3, 7, 18, 0.6);
+  background: var(--input-bg);
   border: 1px solid var(--border);
   color: var(--text-primary);
   transition: all 0.2s ease;
@@ -231,36 +253,22 @@ body {
   border: 1px solid rgba(244, 63, 94, 0.3);
 }
 
-/* Pulse animation for ready status */
-.pulse-ready {
-  animation: readyPulse 2s ease-in-out infinite;
-}
-
-@keyframes readyPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-  }
-}
-
 /* Task card */
 .task-card {
-  background: rgba(17, 24, 39, 0.4);
+  background: var(--card-bg);
   border: 1px solid var(--border);
   transition: all 0.2s ease;
 }
 
 .task-card:hover {
-  background: rgba(17, 24, 39, 0.6);
+  background: var(--surface-hover);
   border-color: var(--border-active);
   transform: translateX(4px);
 }
 
 /* ReactFlow custom styles */
 .react-flow__node {
-  background: rgba(17, 24, 39, 0.9) !important;
+  background: var(--surface) !important;
   border: 1px solid var(--border) !important;
 }
 
@@ -284,17 +292,17 @@ body {
 
 /* Minimap */
 .react-flow__minimap {
-  background: rgba(3, 7, 18, 0.8) !important;
+  background: var(--input-bg) !important;
   border: 1px solid var(--border) !important;
   border-radius: 8px !important;
 }
 
 /* Controls */
 .react-flow__controls {
-  background: rgba(17, 24, 39, 0.9) !important;
+  background: var(--surface) !important;
   border: 1px solid var(--border) !important;
   border-radius: 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 12px var(--shadow-color) !important;
 }
 
 .react-flow__controls-button {
@@ -344,39 +352,39 @@ body {
   background-clip: text;
 }
 
-/* Indicator dot */
-.indicator-dot {
-  position: relative;
-}
-
-.indicator-dot::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: inherit;
-  animation: indicatorPulse 1.5s ease-out infinite;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-@keyframes indicatorPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2.5);
-    opacity: 0;
-  }
+.theme-toggle:hover {
+  border-color: var(--border-active);
+  transform: scale(1.05);
 }
 
-/* Focus ring */
-.focus-ring:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-cyan);
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent-cyan);
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
 }
 
 /* Selection */

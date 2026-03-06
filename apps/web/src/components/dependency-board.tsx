@@ -117,14 +117,14 @@ export function DependencyBoard() {
       {/* Left Panel - Input */}
       <div className="surface rounded-2xl p-6 card-animate">
         <div className="flex items-center justify-between mb-1">
-          <h2 className="text-lg font-semibold text-slate-100">Transcript Input</h2>
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Transcript Input</h2>
           <div className="flex items-center gap-1.5">
             <div className="h-1.5 w-1.5 rounded-full bg-cyan-400"></div>
-            <span className="text-xs text-slate-500">Live</span>
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Live</span>
           </div>
         </div>
         
-        <p className="text-sm text-slate-500 mb-5">
+        <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
           Paste your meeting transcript to generate a dependency graph.
         </p>
 
@@ -156,9 +156,9 @@ export function DependencyBoard() {
         </form>
 
         {/* Status Panel */}
-        <div className="mt-5 p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+        <div className="mt-5 p-4 rounded-xl" style={{ background: 'var(--card-bg)', border: '1px solid var(--border)' }}>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">Status</span>
+            <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Status</span>
             <span className={`text-sm font-medium ${
               status === 'completed' ? 'text-emerald-400' :
               status === 'failed' ? 'text-rose-400' :
@@ -171,14 +171,14 @@ export function DependencyBoard() {
           </div>
           
           {jobId && (
-            <div className="mt-3 pt-3 border-t border-slate-800">
-              <span className="text-xs text-slate-500">Job ID</span>
-              <p className="text-xs font-mono text-slate-400 mt-0.5 truncate">{jobId}</p>
+            <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
+              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Job ID</span>
+              <p className="text-xs font-mono mt-0.5 truncate" style={{ color: 'var(--text-secondary)' }}>{jobId}</p>
             </div>
           )}
           
           {error && (
-            <div className="mt-3 pt-3 border-t border-slate-800">
+            <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
               <p className="text-xs text-rose-400">{error}</p>
             </div>
           )}
@@ -187,10 +187,10 @@ export function DependencyBoard() {
         {/* Task List */}
         {tasks.length > 0 && (
           <div className="mt-5">
-            <h3 className="text-sm font-medium text-slate-300 mb-3">
+            <h3 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
               Tasks ({tasks.length})
             </h3>
-            <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-80 overflow-y-auto pr-1 scroll-smooth">
               {tasks.map((task) => {
                 const computed = deriveStatus(task, completedTaskIds, errorTaskIds);
                 const statusClass = 
@@ -201,16 +201,16 @@ export function DependencyBoard() {
                 return (
                   <div 
                     key={task.id} 
-                    className={`task-card rounded-xl p-3 ${computed === 'Ready' ? 'pulse-ready' : ''}`}
+                    className="task-card rounded-xl p-3"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-mono text-slate-500 truncate">{task.id}</p>
-                        <p className="text-sm font-medium text-slate-200 mt-1 line-clamp-2">{task.description}</p>
+                        <p className="text-[10px] font-mono truncate" style={{ color: 'var(--text-muted)' }}>{task.id}</p>
+                        <p className="text-sm font-medium mt-1 line-clamp-2" style={{ color: 'var(--text-primary)' }}>{task.description}</p>
                         <div className="flex items-center gap-3 mt-2">
-                          <span className="text-[10px] text-slate-500">P{task.priority}</span>
+                          <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>P{task.priority}</span>
                           {task.dependencies.length > 0 && (
-                            <span className="text-[10px] text-slate-500">
+                            <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
                               → {task.dependencies.length} deps
                             </span>
                           )}
@@ -240,7 +240,7 @@ export function DependencyBoard() {
 
       {/* Right Panel - Graph */}
       <div className="surface rounded-2xl p-4 card-animate">
-        <div className="h-[700px] rounded-xl overflow-hidden border border-slate-800">
+        <div className="h-[700px] rounded-xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
